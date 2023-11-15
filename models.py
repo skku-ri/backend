@@ -19,8 +19,8 @@ class Recruit(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id")) # 지원자
     club_id = Column(Integer, ForeignKey("club.id")) # 지원하려는 동아리
-    application_id = Column(Integer, ForeignKey("application.id")) # 지원자의 지원서
     is_approve = Column(Boolean) # 승인 여부
+    content = Column(String)  # 지원서 내용
 
 class Member(Base):
     __tablename__ = 'member'
@@ -35,18 +35,14 @@ class Club(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String) # 동아리명
-    description = Column(String) # 동아리 설명
+    description= Column(String) # 동아리 설명
+    campus = Column(String) # 동아리 캠퍼
+    activity=Column(String) # 활동 내역
     locate = Column(String) # 동아리 위치. 학생회관 80401
     logo_img_path = Column(String) # 로고 이미지 경로
     sub_category = Column(String) # 소분류
     main_category = Column(String) # 대분류
-
-
-class Application(Base):
-    __tablename__ = 'application'
-
-    id = Column(Integer, primary_key=True, index=True)
-    content = Column(String) # 지원서 작성 내용
+    is_recruiting = Column(Boolean, default=False) # 모집 중 여부, 기본값 false
 
 
 class ApplicationForm(Base):
@@ -54,6 +50,7 @@ class ApplicationForm(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     content = Column(String) # 지원서 양식. ['1' : ~ '2' : ~] 로 저장.
+    club_id=Column(Integer, ForeignKey("club.id"))
 
 
 class Schedule(Base):

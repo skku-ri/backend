@@ -37,7 +37,7 @@ user_dependency = Annotated[dict, Depends(get_current_user)]
 #
 ### 프로필 편집 API
 #
-@router.post("/profile", status_code=status.HTTP_200_OK, summary="프로필 수정 API", description="UpdateProfileRequest에 맞게 데이터를 입력할 경우, email, nickname, department, student_number, phone_num 프로필을 편집하는 API입니다.")
+@router.put("/profile", status_code=status.HTTP_200_OK, summary="프로필 수정 API", description="UpdateProfileRequest에 맞게 데이터를 입력할 경우, email, nickname, department, student_number, phone_num 프로필을 편집하는 API입니다.")
 async def update_user(user: user_dependency, db: db_dependency, update_profile_request: UpdateProfileRequest):
     user_model = db.query(Users).filter(Users.id == user.get('id')).first()
     if user_model is None :
@@ -54,3 +54,8 @@ async def update_user(user: user_dependency, db: db_dependency, update_profile_r
     db.commit()
 
     return "유저 정보를 성공적으로 바꿨습니다."
+
+
+#
+### 커스텀 명함 편집 API
+#
