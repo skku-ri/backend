@@ -57,5 +57,12 @@ async def update_user(user: user_dependency, db: db_dependency, update_profile_r
 
 
 #
-### 커스텀 명함 편집 API
+### 유저 정보 가져오기 편집 API
 #
+@router.get("/profile", status_code=status.HTTP_200_OK, summary="프로필 가져오기 API", description="access token에 맞는 유저 프로필 정보를 가져옵니다.")
+async def get_user(user: user_dependency, db: db_dependency):
+    user_model = db.query(Users).filter(Users.id == user.get('id')).first()
+    if user_model is None :
+        return "유저 정보가 존재하지 않습니다."
+
+    return user_model
